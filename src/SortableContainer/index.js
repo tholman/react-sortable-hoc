@@ -148,9 +148,9 @@ export default function sortableContainer(
         !this.state.sorting
       ) {
         const {useDragHandle} = this.props;
-        const {index, collection, disabled, locked} = node.sortableInfo;
+        const {index, collection, disabled} = node.sortableInfo;
 
-        if (disabled || locked) {
+        if (disabled) {
           return;
         }
 
@@ -643,7 +643,7 @@ export default function sortableContainer(
 
       // Returns whether a node location is a valid location for another node
       // to be moved into
-      const isAllowedToMoveToNode = ({node}) => !node.sortableInfo.locked;
+      const isAllowedToMoveToNode = () => true;
 
       // Given an item index and a direction within the list in which it should be
       // moved, find the next valid index at which it can be positioned.

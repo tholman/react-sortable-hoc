@@ -9,7 +9,6 @@ const propTypes = {
   index: PropTypes.number.isRequired,
   collection: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   disabled: PropTypes.bool,
-  locked: PropTypes.bool,
 };
 
 const omittedProps = Object.keys(propTypes);
@@ -47,10 +46,6 @@ export default function sortableElement(
         if (prevProps.disabled !== this.props.disabled) {
           this.node.sortableInfo.disabled = this.props.disabled;
         }
-
-        if (prevProps.locked !== this.props.locked) {
-          this.node.sortableInfo.locked = this.props.locked;
-        }
       }
 
       if (prevProps.collection !== this.props.collection) {
@@ -64,14 +59,13 @@ export default function sortableElement(
     }
 
     register() {
-      const {collection, disabled, locked, index} = this.props;
+      const {collection, disabled, index} = this.props;
       const node = findDOMNode(this);
 
       node.sortableInfo = {
         collection,
         disabled,
         index,
-        locked,
         manager: this.context.manager,
       };
 
