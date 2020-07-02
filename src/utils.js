@@ -1,6 +1,10 @@
 /* global process */
 import invariant from 'invariant';
 
+export function clamp(num, min, max) {
+  return Math.min(Math.max(num, min), max);
+}
+
 export function arrayMove(array, from, to) {
   // Will be deprecated soon. Consumers should install 'array-move' instead
   // https://www.npmjs.com/package/array-move

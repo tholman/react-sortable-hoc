@@ -7,6 +7,7 @@ import Manager from '../Manager';
 import {isSortableHandle} from '../SortableHandle';
 
 import {
+  clamp,
   cloneNode,
   closest,
   events,
@@ -641,42 +642,16 @@ export default function sortableContainer(
       const prevIndex = this.newIndex;
       this.newIndex = null;
 
-      // Returns whether a node location is a valid location for another node
-      // to be moved into
-      const isAllowedToMoveToNode = () => true;
-
       // Given an item index and a direction within the list in which it should be
       // moved, find the next valid index at which it can be positioned.
-      const findNextSortIndex = (
-        index,
-        direction,
-        predicate = isAllowedToMoveToNode,
-      ) => {
-        let i = index + 1;
-        let loop = () => i < nodes.length;
-        let increment = () => (i += 1);
-
-        if (direction === DIRECTION.BACKWARD) {
-          i = index - 1;
-          loop = () => i >= 0;
-          increment = () => (i -= 1);
-        }
-
-        while (loop()) {
-          if (predicate(nodes[i])) {
-            return i;
-          }
-          increment();
-        }
+      const findNextSortIndex = (index, direction) => {
+        const i = direction === DIRECTION.BACKWARD ? index - 1 : index + 1;
+        return clamp(i, 0, nodes.length - 1);
       };
 
       for (let i = 0, len = nodes.length; i < len; i++) {
         const {node} = nodes[i];
         const {index} = node.sortableInfo;
-
-        if (!isAllowedToMoveToNode(nodes[i])) {
-          continue;
-        }
 
         const width = node.offsetWidth;
         const height = node.offsetHeight;
