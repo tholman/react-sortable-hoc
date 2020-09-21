@@ -496,6 +496,7 @@ storiesOf('General | Layout / Vertical list', module)
         <ListWrapper
           component={SortableList}
           items={getItems(50, 59)}
+          lockedItems={[2, 3, 4]}
           helperClass={style.stylizedHelper}
         />
       </div>

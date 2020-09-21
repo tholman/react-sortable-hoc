@@ -222,7 +222,7 @@ export default function sortableContainer(
       }
     };
 
-    handleEnd = (event) => {
+    handleEnd = () => {
       this.touched = false;
       this.cancel();
     };
