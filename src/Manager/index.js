@@ -32,6 +32,10 @@ export default class Manager {
     return this.refs[collection].indexOf(ref);
   }
 
+  getRefs(collection = this.active.collection) {
+    return this.refs[collection];
+  }
+
   getOrderedRefs(collection = this.active.collection) {
     return this.refs[collection].sort(sortByIndex);
   }

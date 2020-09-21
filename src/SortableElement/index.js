@@ -10,6 +10,7 @@ const propTypes = {
   collection: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   disabled: PropTypes.bool,
   locked: PropTypes.bool,
+  wasLocked: PropTypes.bool,
 };
 
 const omittedProps = Object.keys(propTypes);
@@ -50,6 +51,10 @@ export default function sortableElement(
 
         if (prevProps.locked !== this.props.locked) {
           this.node.sortableInfo.locked = this.props.locked;
+        }
+
+        if (prevProps.wasLocked !== this.props.wasLocked) {
+          this.node.sortableInfo.wasLocked = this.props.wasLocked;
         }
       }
 

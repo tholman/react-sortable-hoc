@@ -148,9 +148,9 @@ export default function sortableContainer(
         !this.state.sorting
       ) {
         const {useDragHandle} = this.props;
-        const {index, collection, disabled, locked} = node.sortableInfo;
+        const {index, collection, disabled} = node.sortableInfo;
 
-        if (disabled || locked) {
+        if (disabled) {
           return;
         }
 
@@ -172,6 +172,12 @@ export default function sortableContainer(
         if (!distance) {
           if (this.props.pressDelay === 0) {
             this.handlePress(event);
+
+            // Unlock while sorting
+            if (node.sortableInfo.locked) {
+              node.sortableInfo.locked = false;
+              node.sortableInfo.wasLocked = true;
+            }
           } else {
             this.pressTimer = setTimeout(
               () => this.handlePress(event),
@@ -216,7 +222,7 @@ export default function sortableContainer(
       }
     };
 
-    handleEnd = () => {
+    handleEnd = (event) => {
       this.touched = false;
       this.cancel();
     };
@@ -229,6 +235,7 @@ export default function sortableContainer(
         if (!distance) {
           clearTimeout(this.pressTimer);
         }
+
         this.manager.active = null;
       }
     };
@@ -476,6 +483,7 @@ export default function sortableContainer(
         active: {collection},
         isKeySorting,
       } = this.manager;
+
       const nodes = this.manager.getOrderedRefs();
 
       // Remove the event listeners if the node is still in the DOM
@@ -521,6 +529,11 @@ export default function sortableContainer(
       for (let i = 0, len = nodes.length; i < len; i++) {
         const node = nodes[i];
         const el = node.node;
+
+        if (el.sortableInfo.wasLocked) {
+          el.sortableInfo.wasLocked = false;
+          el.sortableInfo.locked = true;
+        }
 
         // Clear the cached offset/boundingClientRect
         node.edgeOffset = null;
@@ -643,7 +656,9 @@ export default function sortableContainer(
 
       // Returns whether a node location is a valid location for another node
       // to be moved into
-      const isAllowedToMoveToNode = ({node}) => !node.sortableInfo.locked;
+      const isAllowedToMoveToNode = ({node}) => {
+        return !node.sortableInfo.locked;
+      };
 
       // Given an item index and a direction within the list in which it should be
       // moved, find the next valid index at which it can be positioned.
@@ -687,9 +702,9 @@ export default function sortableContainer(
 
         // For keyboard sorting, we want user input to dictate the position of the nodes
         const mustShiftBackward =
-          isKeySorting && (index > this.index && index <= prevIndex);
+          isKeySorting && index > this.index && index <= prevIndex;
         const mustShiftForward =
-          isKeySorting && (index < this.index && index >= prevIndex);
+          isKeySorting && index < this.index && index >= prevIndex;
 
         const translate = {
           x: 0,
