@@ -360,16 +360,6 @@
         },
       },
       {
-        key: 'getRefs',
-        value: function getRefs() {
-          var collection =
-            arguments.length > 0 && arguments[0] !== undefined
-              ? arguments[0]
-              : this.active.collection;
-          return this.refs[collection];
-        },
-      },
-      {
         key: 'getOrderedRefs',
         value: function getOrderedRefs() {
           var collection =
@@ -1258,9 +1248,7 @@
             }
           });
 
-          defineProperty(assertThisInitialized(_this), 'handleEnd', function(
-            event,
-          ) {
+          defineProperty(assertThisInitialized(_this), 'handleEnd', function() {
             _this.touched = false;
 
             _this.cancel();

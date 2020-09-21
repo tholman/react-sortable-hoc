@@ -89,16 +89,6 @@ var Manager = (function() {
       },
     },
     {
-      key: 'getRefs',
-      value: function getRefs() {
-        var collection =
-          arguments.length > 0 && arguments[0] !== undefined
-            ? arguments[0]
-            : this.active.collection;
-        return this.refs[collection];
-      },
-    },
-    {
       key: 'getOrderedRefs',
       value: function getOrderedRefs() {
         var collection =
@@ -947,9 +937,7 @@ function sortableContainer(WrappedComponent) {
           }
         });
 
-        _defineProperty(_assertThisInitialized(_this), 'handleEnd', function(
-          event,
-        ) {
+        _defineProperty(_assertThisInitialized(_this), 'handleEnd', function() {
           _this.touched = false;
 
           _this.cancel();
