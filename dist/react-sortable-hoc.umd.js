@@ -1192,14 +1192,9 @@
               if (!distance) {
                 if (_this.props.pressDelay === 0) {
                   _this.handlePress(event);
-
-                  if (node.sortableInfo.locked) {
-                    node.sortableInfo.locked = false;
-                    node.sortableInfo.wasLocked = true;
-                  }
                 } else {
                   _this.pressTimer = setTimeout(function() {
-                    return _this.handlePress(event);
+                    _this.handlePress(event);
                   }, _this.props.pressDelay);
                 }
               }
@@ -1272,6 +1267,15 @@
           ) {
             try {
               var active = _this.manager.getActive();
+
+              var node = closest(event.target, function(el) {
+                return el.sortableInfo != null;
+              });
+
+              if (node.sortableInfo.locked) {
+                node.sortableInfo.locked = false;
+                node.sortableInfo.wasLocked = true;
+              }
 
               var _temp6 = (function() {
                 if (active) {
@@ -1642,19 +1646,19 @@
               }
 
               for (var i = 0, len = nodes.length; i < len; i++) {
-                var _node2 = nodes[i];
-                var el = _node2.node;
+                var node = nodes[i];
+                var el = node.node;
 
                 if (el.sortableInfo.wasLocked) {
                   el.sortableInfo.wasLocked = false;
                   el.sortableInfo.locked = true;
                 }
 
-                _node2.edgeOffset = null;
-                _node2.boundingClientRect = null;
+                node.edgeOffset = null;
+                node.boundingClientRect = null;
                 setTranslate3d(el, null);
                 setTransitionDuration(el, null);
-                _node2.translate = null;
+                node.translate = null;
               }
 
               _this.autoScroller.clear();
