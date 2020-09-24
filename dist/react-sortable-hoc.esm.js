@@ -859,7 +859,7 @@ function sortableContainer(WrappedComponent) {
                 _this.handlePress(event);
               } else {
                 _this.pressTimer = setTimeout(function() {
-                  _this.handlePress(event);
+                  return _this.handlePress(event);
                 }, _this.props.pressDelay);
               }
             }
@@ -933,13 +933,13 @@ function sortableContainer(WrappedComponent) {
           try {
             var active = _this.manager.getActive();
 
-            var node = closest(event.target, function(el) {
+            var localNode = closest(event.target, function(el) {
               return el.sortableInfo != null;
             });
 
-            if (node.sortableInfo.locked) {
-              node.sortableInfo.locked = false;
-              node.sortableInfo.wasLocked = true;
+            if (localNode.sortableInfo.locked) {
+              localNode.sortableInfo.locked = false;
+              localNode.sortableInfo.wasLocked = true;
             }
 
             var _temp6 = (function() {
@@ -1308,19 +1308,19 @@ function sortableContainer(WrappedComponent) {
             }
 
             for (var i = 0, len = nodes.length; i < len; i++) {
-              var node = nodes[i];
-              var el = node.node;
+              var _node2 = nodes[i];
+              var el = _node2.node;
 
               if (el.sortableInfo.wasLocked) {
                 el.sortableInfo.wasLocked = false;
                 el.sortableInfo.locked = true;
               }
 
-              node.edgeOffset = null;
-              node.boundingClientRect = null;
+              _node2.edgeOffset = null;
+              _node2.boundingClientRect = null;
               setTranslate3d(el, null);
               setTransitionDuration(el, null);
-              node.translate = null;
+              _node2.translate = null;
             }
 
             _this.autoScroller.clear();
