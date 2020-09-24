@@ -697,6 +697,7 @@ storiesOf('General | Configuration / Options', module)
         <ListWrapper
           component={SortableList}
           items={getItems(10, 59)}
+          distance={5}
           helperClass={style.stylizedHelper}
           lockedItems={[2, 3, 7]}
         />
