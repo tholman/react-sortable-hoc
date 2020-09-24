@@ -173,9 +173,10 @@ export default function sortableContainer(
           if (this.props.pressDelay === 0) {
             this.handlePress(event);
           } else {
-            this.pressTimer = setTimeout(() => {
-              this.handlePress(event);
-            }, this.props.pressDelay);
+            this.pressTimer = setTimeout(
+              () => this.handlePress(event),
+              this.props.pressDelay,
+            );
           }
         }
       }
@@ -236,11 +237,11 @@ export default function sortableContainer(
     handlePress = async (event) => {
       const active = this.manager.getActive();
 
-      const node = closest(event.target, (el) => el.sortableInfo != null);
+      const localNode = closest(event.target, (el) => el.sortableInfo != null);
       // Unlock while sorting
-      if (node.sortableInfo.locked) {
-        node.sortableInfo.locked = false;
-        node.sortableInfo.wasLocked = true;
+      if (localNode.sortableInfo.locked) {
+        localNode.sortableInfo.locked = false;
+        localNode.sortableInfo.wasLocked = true;
       }
 
       if (active) {
